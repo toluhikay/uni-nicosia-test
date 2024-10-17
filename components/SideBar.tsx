@@ -1,7 +1,14 @@
 import React from "react";
+import SideBarTop from "./SideBarTop";
+import SibeBarBottomLinks from "./SibeBarBottomLinks";
 
 const SideBar = () => {
-  return <div>SideBar</div>;
+  return (
+    <aside className="h-full bg-primaryBlack w-[16rem] p-5 text-primaryWhite border border-secondaryBlack flex flex-col justify-between">
+      <SideBarTop />
+      <SibeBarBottomLinks />
+    </aside>
+  );
 };
 
 export default SideBar;
