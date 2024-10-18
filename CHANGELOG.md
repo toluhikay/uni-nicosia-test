@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.3...v0.1.4) (2024-10-18)
+
+
+### Features
+
+* implement multiple features (Response formatter), (React WYSIWYG editor), (tested hugging api with generated access token) ([2e970e9](https://github.com/toluhikay/uni-nicosia-test/commit/2e970e99311a20812d4d01c407289442f42741c8))
+
 ### [0.1.2](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.1...v0.1.2) (2024-10-17)
 
 
