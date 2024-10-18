@@ -15,7 +15,7 @@ const SideBarTopLinks = () => {
   const LibrarySubLinks = ["Lists", "Personas", "Agents", "Projects", "Prompts"];
   const [toggleLibraryLinks, setToggleLibraryLinks] = useState(false);
   return (
-    <div>
+    <div className="w-full flex-grow overflow-y-auto overflow-x-hidden">
       <SideBarLink icon={<RecentIcon />} link="Recents" />
       <div className="w-full relative">
         <div

@@ -6,7 +6,7 @@ import React from "react";
 
 const DashboardPage = () => {
   return (
-    <main className="flex w-full h-full bg-primaryBlack">
+    <main className="flex w-full h-full overflow-hidden bg-primaryBlack">
       <SideBar />
       <div className="w-full h-full flex flex-col overflow-hidden">
         <Header />

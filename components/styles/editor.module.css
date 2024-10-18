@@ -1,0 +1,21 @@
+.editorWrapper {
+  position: relative;
+}
+
+.placeholder {
+  position: absolute;
+  top: 10px; /* Adjust as necessary */
+  left: 15px; /* Adjust as necessary */
+  color: #aaa; /* Placeholder color */
+  pointer-events: none; /* Prevent clicks on the placeholder */
+  transition: opacity 0.2s; /* Optional: smooth transition */
+}
+
+.borderless .ql-editor {
+  border: none; /* Remove the border */
+  box-shadow: none; /* Remove shadow */
+}
+
+.borderless ql-editor::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar for WebKit browsers (Chrome, Safari) */
+}
