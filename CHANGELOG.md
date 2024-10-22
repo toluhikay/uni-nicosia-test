@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.11](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.10...v0.1.11) (2024-10-22)
+
+
+### Bug Fixes
+
+* cleanup production code and improve Quill editor configuration ([048a12f](https://github.com/toluhikay/uni-nicosia-test/commit/048a12fd1f7cd8460ba84a217657cb5066250536))
+
 ### [0.1.10](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.9...v0.1.10) (2024-10-22)
 
 
