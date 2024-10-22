@@ -2,15 +2,16 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 // interface for Message object
-interface Message {
+export interface Message {
   id: string; // Unique identifier for each message
   userMessage: string; // User message text
   llmResponse: string | null; // Response from the LLM
   llmStopped?: boolean; // Flag to indicate if the LLM response was stopped
   controller?: AbortController; // Track the controller for aborting
+  loading: boolean; // Flag to track loading state
 }
 
-interface ChatSession {
+export interface ChatSession {
   id: string; // Unique identifier for the chat session
   messages: Message[]; // Array of messages in the session
 }
@@ -18,11 +19,17 @@ interface ChatSession {
 //Shape of the chat store
 interface ChatStore {
   chatSessions: ChatSession[]; // Array to hold all chat sessions
+  isLoading: boolean; // this is to control the initial load state of the project
+  llmStopped: boolean;
   currentSessionId: string | null; // CurrentSessionId property - to get a chat session i.e an array or messages
-  addMessageToSession: (sessionId: string, userMessage: string, controller: AbortController) => void; // Function to add a message to a session
-  createNewSession: (sessionId: string) => void; // Function to create a new chat session
+  currentController: AbortController | null; // Holds the controller for aborting LLM requests
+  addMessageToSession: (sessionId: string, userMessage: string, controller: AbortController, loading: boolean) => void; // Function to add a message to a session
+  initializeStore: () => void; //this initializes the chat store
+  createNewSession: (sessionId?: string) => void; // Function to create a new chat session
   updateMessage: (sessionId: string, messageId: string, updatedMessage: string) => void; // Function to update a message's response
-  stopLLMResponse: (sessionId: string, messageId: string) => void; // Function to stop LLM generation for a message
+  updateMessageAndCallLLM: (sessionId: string, messageId: string, updatedUserMessage: string) => Promise<void>;
+  stopLLMResponse: (callback: () => void) => void; // Function to stop LLM generation for a message
+  // stopLLMResponse: (sessionId: string, messageId: string) => void; // Function to stop LLM generation for a message
   handleMultiplePrompts: (sessionId: string, userMessages: string[]) => Promise<void>; // Function to handle multiple prompts
   getSessionId: () => string | null; // Function to get current active section
   getChatSession: (sessionId: string) => ChatSession | undefined; //Function to get the messages in the current or active session
@@ -34,8 +41,11 @@ interface ChatStore {
 export const useChatStore = create(
   persist<ChatStore>(
     (set, get) => ({
+      isLoading: true,
+      llmStopped: false,
       chatSessions: [], // Initialize chat sessions as an empty array
       currentSessionId: null, // Initialize currentSessionId
+      currentController: null, // Controller for aborting LLM requests
       getSessionId: () => {
         return get().currentSessionId;
       },
@@ -51,7 +61,7 @@ export const useChatStore = create(
         set((state) => ({ ...state, currentSessionId: sessionId }));
       },
       // Adds a user message to the specified chat session
-      addMessageToSession: (sessionId, userMessage, controller) =>
+      addMessageToSession: (sessionId, userMessage, controller, loading = false) =>
         set((state) => ({
           chatSessions: state.chatSessions.map((session) =>
             session.id === sessionId
@@ -60,22 +70,62 @@ export const useChatStore = create(
                   messages: [
                     ...session.messages,
                     {
-                      id: generateId(), // Generate a unique ID for the new message
+                      id: generateId(),
                       userMessage,
-                      llmResponse: null, // Initialize LLM response as null
-                      controller, // Save the controller for aborting
+                      llmResponse: null,
+                      controller,
+                      loading,
                     },
                   ],
                 }
               : session
           ),
+          currentController: controller,
         })),
 
+      initializeStore: () => {
+        const storedSessionId = sessionStorage.getItem("currentSessionId");
+
+        if (storedSessionId) {
+          const existingSession = get().chatSessions.find((session) => session.id === storedSessionId);
+
+          if (existingSession) {
+            set({
+              currentSessionId: storedSessionId,
+              isLoading: false,
+            });
+          } else {
+            const newSession = { id: storedSessionId, messages: [] };
+
+            set({
+              chatSessions: [...get().chatSessions, newSession],
+              currentSessionId: storedSessionId,
+              isLoading: false,
+            });
+          }
+        } else {
+          const sessionId = generateId();
+          const newSession = { id: sessionId, messages: [] };
+
+          set({
+            chatSessions: [newSession],
+            currentSessionId: sessionId,
+            isLoading: false,
+          });
+
+          sessionStorage.setItem("currentSessionId", sessionId);
+        }
+      },
+
       // Creates a new chat session with the specified session ID
-      createNewSession: (sessionId) =>
-        set((state) => ({
-          chatSessions: [...state.chatSessions, { id: sessionId, messages: [] }], // Add new session to the array
-        })),
+      createNewSession: (sessionId?: string) =>
+        set((state) => {
+          const newSessionId = sessionId || generateId(); // Generate a new ID if none is provided
+          return {
+            chatSessions: [...state.chatSessions, { id: newSessionId, messages: [] }],
+            currentSessionId: newSessionId,
+          };
+        }),
 
       // Updates a message's LLM response in a specified chat session
       updateMessage: (sessionId, messageId, updatedMessage) =>
@@ -92,30 +142,60 @@ export const useChatStore = create(
           ),
         })),
 
-      // Stops the LLM response generation for a specified message in a session
-      stopLLMResponse: (sessionId, messageId) =>
+      updateMessageAndCallLLM: async (sessionId: string, messageId: string, updatedUserMessage: string) => {
+        // Update user message
         set((state) => {
-          const session = state.chatSessions.find((s) => s.id === sessionId); // Find the session
-          if (!session) return state; // If session doesn't exist, return current state
+          const session = state.chatSessions.find((s) => s.id === sessionId);
+          if (!session) return state;
 
-          const message = session.messages.find((m) => m.id === messageId); // Find the message
-          if (message && message.controller) {
-            message.controller.abort(); // Abort the LLM generation using the controller
-            return {
-              chatSessions: state.chatSessions.map((s) =>
-                s.id === sessionId
-                  ? {
-                      ...s,
-                      messages: s.messages.map(
-                        (m) => (m.id === messageId ? { ...m, llmStopped: true } : m) // Mark message as stopped
-                      ),
-                    }
-                  : s
-              ),
-            };
-          }
-          return state; // Return current state if no message found or controller not present
-        }),
+          const messageIndex = session.messages.findIndex((m) => m.id === messageId);
+          if (messageIndex === -1) return state;
+
+          session.messages[messageIndex].userMessage = updatedUserMessage;
+
+          // Move updated message to the top of the queue (or last)
+          const updatedMessage = session.messages.splice(messageIndex, 1)[0];
+          session.messages.push(updatedMessage);
+
+          return {
+            chatSessions: state.chatSessions.map((s) => (s.id === sessionId ? { ...s, messages: session.messages } : s)),
+          };
+        });
+
+        // Call LLM API to get new response
+        const llmResponse = await fetch("/api/inference", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ messages: [{ role: "user", content: updatedUserMessage }] }),
+        });
+
+        const responseText = await llmResponse.text();
+
+        // Update LLM response
+        set((state) => {
+          const session = state.chatSessions.find((s) => s.id === sessionId);
+          if (!session) return state;
+
+          const messageIndex = session.messages.findIndex((m) => m.id === messageId);
+          if (messageIndex === -1) return state;
+
+          session.messages[messageIndex].llmResponse = responseText.trim();
+
+          return {
+            chatSessions: state.chatSessions.map((s) => (s.id === sessionId ? { ...s, messages: session.messages } : s)),
+          };
+        });
+      },
+      // Refactored stopLLMResponse
+      stopLLMResponse: () => {
+        const controller = get().currentController;
+        if (controller) {
+          controller.abort(); // Abort the current LLM request
+          set((state) => ({ ...state, llmStopped: true }));
+        }
+      },
 
       // Handles multiple user prompts by sending each to the LLM and adding responses to the chat session
       handleMultiplePrompts: async (sessionId: string, userMessages: string[]) => {
@@ -124,7 +204,7 @@ export const useChatStore = create(
         for (const userMessage of userMessages) {
           const controller = new AbortController();
 
-          addMessageToSession(sessionId, userMessage, controller);
+          addMessageToSession(sessionId, userMessage, controller, true); // Set loading to true initially
 
           try {
             const response = await fetch("/api/inference", {
@@ -139,32 +219,84 @@ export const useChatStore = create(
             if (response.body) {
               const reader = response.body.getReader();
               const decoder = new TextDecoder();
-              let done = false;
-              let responseText = "";
+              let accumulatedResponse = "";
 
-              while (!done) {
-                const { done: streamDone, value } = await reader.read();
-                done = streamDone;
-                const chunk = decoder.decode(value || new Uint8Array(), { stream: true });
-                responseText += chunk;
+              while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value);
+                accumulatedResponse += chunk;
+
+                // Check if the abort signal has been raised
+                if (controller.signal.aborted) {
+                  console.log("LLM Response Aborted!");
+                  set((state) => ({
+                    chatSessions: state.chatSessions.map((session) =>
+                      session.id === sessionId
+                        ? {
+                            ...session,
+                            messages: session.messages.map((message) =>
+                              message.userMessage === userMessage
+                                ? { ...message, llmResponse: accumulatedResponse, loading: false } // Set loading to false on abort
+                                : message
+                            ),
+                          }
+                        : session
+                    ),
+                  }));
+                  break;
+                }
+
+                // Update message with accumulated response
+                set((state) => ({
+                  chatSessions: state.chatSessions.map((session) =>
+                    session.id === sessionId
+                      ? {
+                          ...session,
+                          messages: session.messages.map((message) =>
+                            message.userMessage === userMessage
+                              ? { ...message, llmResponse: accumulatedResponse, loading: true } // Keep loading true during response generation
+                              : message
+                          ),
+                        }
+                      : session
+                  ),
+                }));
               }
-
-              // Update message with complete responseText
+            } else {
+              console.error("Failed to fetch LLM response:", response.statusText);
               set((state) => ({
                 chatSessions: state.chatSessions.map((session) =>
                   session.id === sessionId
                     ? {
                         ...session,
-                        messages: session.messages.map((message) => (message.userMessage === userMessage ? { ...message, llmResponse: responseText.trim() } : message)),
+                        messages: session.messages.map((message) =>
+                          message.userMessage === userMessage
+                            ? { ...message, llmResponse: "", loading: false } // Set loading to false on error
+                            : message
+                        ),
                       }
                     : session
                 ),
               }));
-            } else {
-              console.error("Failed to fetch LLM response:", response.statusText);
             }
           } catch (error) {
             console.error("Error during inference:", error);
+            set((state) => ({
+              chatSessions: state.chatSessions.map((session) =>
+                session.id === sessionId
+                  ? {
+                      ...session,
+                      messages: session.messages.map((message) =>
+                        message.userMessage === userMessage
+                          ? { ...message, llmResponse: "", loading: false } // Set loading to false on error
+                          : message
+                      ),
+                    }
+                  : session
+              ),
+            }));
           }
         }
       },

@@ -4,6 +4,9 @@ import { HfInference } from "@huggingface/inference";
 const inference = new HfInference(process.env.HUGGING_FACE_ACCESS_TOKEN as string);
 
 export async function POST(request: NextRequest) {
+  const abortController = new AbortController(); // Create an AbortController instance
+  const { signal } = abortController;
+
   try {
     const { messages } = await request.json();
 
@@ -20,13 +23,19 @@ export async function POST(request: NextRequest) {
     const readableStream = new ReadableStream({
       async pull(controller) {
         for await (const chunk of stream) {
+          if (signal.aborted) {
+            // Check if the request was aborted
+            controller.error("Request aborted");
+            return;
+          }
           const content = chunk.choices[0]?.delta?.content || "";
-          controller.enqueue(content); // Remove 'data: ' prefix
+          controller.enqueue(content);
         }
-        controller.close(); // Close the stream when done
+        controller.close();
       },
       cancel() {
         console.log("Stream canceled");
+        abortController.abort(); // Trigger abort when the stream is canceled
       },
     });
 

@@ -1,5 +1,20 @@
 import { create } from "zustand";
 
-// interface
+interface ModalState {
+  modalType: string | null;
+  props: any;
+}
 
-export const useModalStore = create();
+interface ModalActions {
+  openModal: (modalType: string, props?: any) => void;
+  closeModal: () => void;
+}
+
+const useModalStore = create<ModalState & ModalActions>((set) => ({
+  modalType: null,
+  props: {},
+  openModal: (modalType, props) => set({ modalType, props }),
+  closeModal: () => set({ modalType: null, props: {} }),
+}));
+
+export default useModalStore;

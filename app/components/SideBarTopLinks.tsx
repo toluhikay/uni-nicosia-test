@@ -2,9 +2,9 @@
 import { AppIcon, LibraryIcon, RecentIcon, ToggleDownIcon } from "@/assets/svgs/SideBarSvgs";
 import React, { useState } from "react";
 
-export const SideBarLink = ({ icon, link }: { icon: React.ReactNode; link: string }) => {
+export const SideBarLink = ({ icon, link, onClick }: { icon: React.ReactNode; link: string; onClick?: React.MouseEventHandler<HTMLDivElement> }) => {
   return (
-    <div className="flex w-full items-center text-center gap-3 font-medium cursor-pointer py-3">
+    <div className="flex w-full items-center text-center gap-3 font-medium cursor-pointer py-3" onClick={onClick}>
       {icon}
       <span>{link}</span>
     </div>
@@ -35,7 +35,7 @@ const SideBarTopLinks = () => {
         <div className={`w-full flex flex-col transition-all ${toggleLibraryLinks ? "pl-5 h-auto transition-all" : "h-0 overflow-hidden transition-all"}`}>
           {LibrarySubLinks.map((link, index) => {
             return (
-              <p className="py-3 text-[#979797]" key={index}>
+              <p className="py-3 text-[#979797] cursor-pointer" key={index}>
                 {link}
               </p>
             );

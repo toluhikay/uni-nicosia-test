@@ -1,8 +1,10 @@
-import Header from "@/components/Header";
-import PromptArea from "@/components/PromptArea";
-import SideBar from "@/components/SideBar";
-import TopNav from "@/components/TopNav";
-import React from "react";
+"use client";
+import Header from "@/app/components/Header";
+import PromptArea from "@/app/components/PromptArea";
+import SideBar from "@/app/components/SideBar";
+import TopNav from "@/app/components/TopNav";
+import React, { useState } from "react";
+import withAuth from "../components/withAuth";
 
 const DashboardPage = () => {
   return (
@@ -17,4 +19,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default withAuth(DashboardPage);
