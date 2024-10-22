@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Editor from "./Editor";
 import { SendPromptIcon } from "@/assets/svgs/DashboardSvgs";
 import { Message, useChatStore } from "@/lib/store/chatStore";
 import { scrapWebsiteRefactor } from "@/lib/scrapper";
@@ -9,7 +8,6 @@ import useModalStore from "@/lib/store/modalStore";
 import { createPortal } from "react-dom";
 import { ModalEnum } from "@/constants/modalConstants";
 import dynamic from "next/dynamic";
-import UpdateMessageModal from "../modals/UpdateMessageModal";
 import toast from "react-hot-toast";
 import PromptModal from "../modals/PromptModal";
 import Loader from "../common/Loader";
@@ -19,6 +17,14 @@ import PromptFooter from "./PromptFooter";
 const CommandModal = dynamic(() => import("@/app/modals/CommandModal"), {
   ssr: false,
 });
+
+const Editor = dynamic(() => import("@/app/components/Editor"), {
+  ssr: false,
+});
+const UpdateMessageModal = dynamic(() => import("@/app/modals/UpdateMessageModal"), {
+  ssr: false,
+});
+
 const PromptArea = () => {
   const [currentInput, setCurrentInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);

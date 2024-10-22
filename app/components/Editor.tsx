@@ -1,16 +1,14 @@
 "use client";
 import "react-quill/dist/quill.bubble.css";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import ReactQuill from "react-quill";
 
 const Editor = ({ text, setText, handleSubmit }: { text: any; setText: React.Dispatch<React.SetStateAction<any>>; handleSubmit?: (e: any) => void }) => {
-  useEffect(() => {}, [text]);
-
   const modules = {
     toolbar: false, // This disables the toolbar
   };
 
-  const quillRef = useRef<ReactQuill | null>(null);
+  const quillRef = useRef<any>(null);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Enter" && event.shiftKey) {
