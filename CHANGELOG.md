@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.9](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.8...v0.1.9) (2024-10-22)
+
+
+### Features
+
+* not found page added ([59c5a3c](https://github.com/toluhikay/uni-nicosia-test/commit/59c5a3c938f22f9d92ae504db7e55e26a4f19b43))
+
 ### [0.1.8](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.7...v0.1.8) (2024-10-22)
 
 
