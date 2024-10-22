@@ -21,16 +21,15 @@ export interface ChatSession {
 interface ChatStore {
   chatSessions: ChatSession[]; // Array to hold all chat sessions
   isLoading: boolean; // this is to control the initial load state of the project
-  llmStopped: boolean;
+  llmStopped: boolean; // this shows that the llm generation is aborted
   currentSessionId: string | null; // CurrentSessionId property - to get a chat session i.e an array or messages
   currentController: AbortController | null; // Holds the controller for aborting LLM requests
   addMessageToSession: (sessionId: string, userMessage: string, controller: AbortController, loading: boolean) => void; // Function to add a message to a session
-  initializeStore: () => void; //this initializes the chat store
+  initializeStore: () => void; //this Function initializes the chat store
   createNewSession: (sessionId?: string) => void; // Function to create a new chat session
   updateMessage: (sessionId: string, messageId: string, updatedMessage: string) => void; // Function to update a message's response
   updateMessageAndCallLLM: (sessionId: string, messageId: string, updatedUserMessage: string) => Promise<void>;
   stopLLMResponse: (callback: () => void) => void; // Function to stop LLM generation for a message
-  // stopLLMResponse: (sessionId: string, messageId: string) => void; // Function to stop LLM generation for a message
   handleMultiplePrompts: (sessionId: string, userMessages: string[]) => Promise<void>; // Function to handle multiple prompts
   getSessionId: () => string | null; // Function to get current active section
   getChatSession: (sessionId: string) => ChatSession | undefined; //Function to get the messages in the current or active session
