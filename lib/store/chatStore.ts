@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -188,7 +189,7 @@ export const useChatStore = create(
           };
         });
       },
-      // Refactored stopLLMResponse
+      // stop llm response
       stopLLMResponse: () => {
         const controller = get().currentController;
         if (controller) {
@@ -231,6 +232,7 @@ export const useChatStore = create(
                 // Check if the abort signal has been raised
                 if (controller.signal.aborted) {
                   console.log("LLM Response Aborted!");
+                  toast.error("Message Aborted");
                   set((state) => ({
                     chatSessions: state.chatSessions.map((session) =>
                       session.id === sessionId
@@ -266,6 +268,7 @@ export const useChatStore = create(
               }
             } else {
               console.error("Failed to fetch LLM response:", response.statusText);
+              toast.error(`"Failed to fetch with error: " ${response.statusText}`);
               set((state) => ({
                 chatSessions: state.chatSessions.map((session) =>
                   session.id === sessionId
@@ -283,6 +286,7 @@ export const useChatStore = create(
             }
           } catch (error) {
             console.error("Error during inference:", error);
+            toast.error("request aborted");
             set((state) => ({
               chatSessions: state.chatSessions.map((session) =>
                 session.id === sessionId

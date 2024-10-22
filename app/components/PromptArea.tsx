@@ -55,7 +55,8 @@ const PromptArea = () => {
     }
 
     // Send the multiple prompts to handle in Zustand store
-    await handleMultiplePrompts(currentSessionId, userMessages);
+    const result = await handleMultiplePrompts(currentSessionId, userMessages);
+    toast.error("Network Error");
 
     // Clear the input field
     setCurrentInput("");

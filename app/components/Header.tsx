@@ -4,9 +4,13 @@ import React, { useState } from "react";
 import Logo from "@/assets/images/UNIC-Horizontal.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 import SideBarMobile from "./SideBarMobile";
+import dynamic from "next/dynamic";
+
+const DropDown = dynamic(() => import("@/app/components/DropDown"), { ssr: false });
 
 const Header = () => {
   const [sideBarMobile, setSideBarMobile] = useState(false);
+  const [dropDown, setDropDown] = useState(false);
 
   const TopLinks = [
     { name: "Dashboard", link: "dashboard" },
@@ -37,9 +41,15 @@ const Header = () => {
           })}
         </ul>
       </nav>
-      <div className="flex items-center gap-2 cursor-pointer">
+      <div
+        className="flex items-center gap-2 cursor-pointer relative"
+        onClick={() => {
+          setDropDown(!dropDown);
+        }}
+      >
         <p className="h-[2.125rem] w-[2.125rem] flex flex-col justify-center items-center bg-primary rounded-full text-primaryBlack text-xs font-medium">AP</p>
         <ToggleDownIcon />
+        {<DropDown displayState={dropDown} setDisplayState={setDropDown} />}
       </div>
       <div className={`fixed top-0 z-[99999] ${sideBarMobile ? "left-0" : "left-[-300%]"} transition-all md:hidden  h-full w-full bg-black/80`}>
         <div
