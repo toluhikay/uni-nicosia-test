@@ -17,16 +17,6 @@ const DropDown = ({ displayState, setDisplayState }: { displayState: boolean; se
         <p className="lowercase font-normal text-sm">{user?.email?.toLowerCase()}</p>
       </div>
       <div className="w-full">
-        {/* <Link to={RouterEnum.MY_PROFILE}>
-          <p
-            className="p-2 border-b-[.5px] border-primary-1/30 capitalize font-normal hover:bg-primary-1/30"
-            onClick={() => {
-              setDisplayState(false);
-            }}
-          >
-            My Profile
-          </p>
-        </Link> */}
         <p
           className="p-2 flex items-center gap-[.25rem] capitalize text-red-700 cursor-pointer hover:bg-red-100"
           onClick={() => {
