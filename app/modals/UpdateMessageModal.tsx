@@ -24,8 +24,8 @@ const UpdateMessageModal = ({ messageDetails }: { messageDetails: Message | unde
   };
   return (
     <ModalBaseWrapper>
-      <div className="flex flex-col gap-3 bg-primary pr-5 py-2 justify-center items-center rounded">
-        <div className="w-[40rem] flex justify-between items-center text-white max-w-[90%]">
+      <div className="flex flex-col gap-3 bg-primary py-2 justify-center items-center rounded w-fit max-w-[90%]">
+        <div className="w-[40rem] flex justify-between items-center text-white max-w-[95%]">
           <p>Edit Message</p>
           <span
             className="cursor-pointer"
@@ -36,7 +36,7 @@ const UpdateMessageModal = ({ messageDetails }: { messageDetails: Message | unde
             <CloseIcon />
           </span>{" "}
         </div>
-        <div className="w-[40rem] max-w-[90%] border border-[#2D2D2D] bg-black rounded-lg flex items-center justify-between ">
+        <div className="w-[40rem] max-w-[95%] border border-[#2D2D2D] bg-black rounded-lg flex items-center justify-between ">
           <Editor text={currentInput} setText={handleChange} />
           <div className="flex items-center shrink-0 gap-3 p-3">
             <span className="flex items-center text-sm text-[#747474]">⌘↵ Send</span>

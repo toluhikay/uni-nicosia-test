@@ -112,7 +112,7 @@ const PromptArea = () => {
       <div className="w-full gap-y-[1rem] flex flex-col h-full">
         <PromptChat setMessageDetails={setMessageDetails} />
         <div className="w-full border border-[#2D2D2D] rounded-lg flex max-h-[20rem] items-start hidden-scrollbar justify-between pr-5 py-2">
-          <Editor text={currentInput} setText={handleChange} />
+          <Editor text={currentInput} setText={handleChange} handleSubmit={handleSubmit} />
           <div className="flex items-center shrink-0 gap-3 py-2">
             <span className="flex items-center text-sm text-[#747474]">⌘↵ Send</span>
             {isStreaming ? (
