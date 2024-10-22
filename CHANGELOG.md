@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.13](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.12...v0.1.13) (2024-10-22)
+
+
+### Bug Fixes
+
+* login text updated to guide users on how to login easily ([bf02efd](https://github.com/toluhikay/uni-nicosia-test/commit/bf02efd8ad68bbdbfbda3c5b3c1b7e650ff7fbef))
+
 ### [0.1.12](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.11...v0.1.12) (2024-10-22)
 
 
