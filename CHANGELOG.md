@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.12](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.11...v0.1.12) (2024-10-22)
+
+
+### Bug Fixes
+
+* resolve React Quill dynamic import issue ([1001ac2](https://github.com/toluhikay/uni-nicosia-test/commit/1001ac2521ed39f27246fa52ea3506b768b06d7e))
+
 ### [0.1.11](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.10...v0.1.11) (2024-10-22)
 
 
