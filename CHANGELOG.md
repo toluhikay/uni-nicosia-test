@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.8](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.7...v0.1.8) (2024-10-22)
+
+
+### Features
+
+* lougout implemented ([39bf160](https://github.com/toluhikay/uni-nicosia-test/commit/39bf160d274260b24937036c29f07f519560bea8))
+
+
+### Bug Fixes
+
+* remove redundant codes ([649fd4a](https://github.com/toluhikay/uni-nicosia-test/commit/649fd4a2a956b394ac095bcde46695aad73fccee))
+
 ### [0.1.7](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.6...v0.1.7) (2024-10-22)
 
 
