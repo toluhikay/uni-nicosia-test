@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.5...v0.1.6) (2024-10-22)
+
+
+### Features
+
+* Complete implementation of all functionality with responsive design ([e0407c3](https://github.com/toluhikay/uni-nicosia-test/commit/e0407c3c09750a5dc2e2cdf72cf1a7a452ec6faa))
+
 ### [0.1.5](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.4...v0.1.5) (2024-10-21)
 
 ### [0.1.4](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.3...v0.1.4) (2024-10-18)
