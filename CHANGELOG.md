@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.14](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.13...v0.1.14) (2024-10-22)
+
+
+### Bug Fixes
+
+* added close icon to mobile nav ([51a23bc](https://github.com/toluhikay/uni-nicosia-test/commit/51a23bcd66ed074db36e8af68cc83b07a4b5c04c))
+
 ### [0.1.13](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.12...v0.1.13) (2024-10-22)
 
 
