@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+---
+
+# LLM Wrapper Chat
+
+## Overview
+
+LLM Wrapper Chat is an interactive web application that enables users to engage with a Large Language Model (LLM) using a user-friendly interface. This project utilizes **Next.js**, **React**, and **Zustand** for state management, along with **Tailwind CSS** for styling.
+
+## Features
+
+- **WYSIWYG editor** using React Quill for user input with formatting capabilities.
+- Seamless interaction with **Hugging Face's LLM models** via API integration.
+- **Custom command handling**, including URL scraping with `[include-url]` syntax.
+- **Modal interface** for easy command generation.
+- **Advanced mode** for customizing URL scraping parameters.
+- **Abort functionality** for stopping ongoing LLM requests.
+- Editable previous messages with **re-prompting capability**.
+
+## Technologies Used
+
+- **Frontend**: React, Next.js, Zustand (state management)
+- **Styling**: Tailwind CSS
+- **WYSIWYG Editor**: React Quill
+- **LLM API**: Hugging Face
+- **Web Scraping**: Cheerio
+- **Deployment**: Vercel (free tier plan)
+- **CI/CD**: Integrated using Vercel
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository using:
+   ```bash
+   git clone https://github.com/toluhikay/uni-nicosia-test
+   ```
+2. Install dependencies using:
+   ```bash
+   npm install
+   ```
+   or
+   ```bash
+   yarn install
+   ```
+3. Start the development server using:
+   ```bash
+   npm run dev
+   ```
+   or
+   ```bash
+   yarn dev
+   ```
+4. Access the application at: [http://localhost:3000](http://localhost:3000)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Usage
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Open the application in a web browser.
+2. Enter a message in the **React Quill editor**.
+3. Use custom commands, such as `[include-url]`, to enhance prompts.
+4. Click send to interact with the LLM model.
+5. Edit previous messages and **re-prompt** the LLM.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Custom Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `[include-url]`: Scrapes content from a specified URL using **Cheerio**.
+  - **Syntax**:
+    ```
+    [include-url: URL max_execution_time:300 filter:true store:true]
+    ```
+  - **Advanced mode**: Customize parameters (max_execution_time, filter, store).
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
