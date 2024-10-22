@@ -12,7 +12,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user?.email) {
-      navigate.push("/dashboard");
+      navigate.replace("/dashboard");
     } else {
       setLoading(false); // Stop loading when we know user is not authenticated
     }
@@ -37,6 +37,7 @@ const Login = () => {
         <div className="mb-4 flex flex-col justify-center items-center text-center text-primaryBlack gap-2">
           <p className="text-white font-semibold text-2xl">Login</p>
           <p className="text-gray-600 text-xs w-[80%]">This is not a real world login just some make shift stuff to simulate a real database, don't worry every information is stored on your pc</p>
+          <p className="text-[.625rem] text-red-800">Just type a name and email of choice as a matter of fact your email does not need to have the domain extension</p>
         </div>
         <input
           className="w-full bg-inherit border border-gray-700 rounded outline-none p-2 placeholder:text-gray-600"
