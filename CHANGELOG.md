@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.15](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.14...v0.1.15) (2024-10-22)
+
+
+### Bug Fixes
+
+* edit icon added to prompt ([666604f](https://github.com/toluhikay/uni-nicosia-test/commit/666604f0e9657371772c9338cc00bf881ac97fcf))
+
 ### [0.1.14](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.13...v0.1.14) (2024-10-22)
 
 
