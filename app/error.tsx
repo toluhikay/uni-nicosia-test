@@ -7,7 +7,7 @@ import GeneralButton from "./common/GeneralButton";
 const CustomeError = () => {
   const navigate = useRouter();
   return (
-    <main className="w-full min-h-[80vh] flex text-transparent flex-col items-center justify-center gap-y-[1rem] px-[1.5rem]">
+    <main className="w-full h-full bg-primaryBlack flex text-transparent flex-col items-center justify-center gap-y-[1rem] px-[1.5rem]">
       <p
         className="bg-clip-text text-[10rem]"
         style={{
@@ -17,7 +17,7 @@ const CustomeError = () => {
       >
         Oops!
       </p>
-      <p className="text-black">Error fetching contents</p>
+      <p className="text-primaryWhite">Error fetching contents</p>
       <p></p>
       <div className="w-fit">
         <GeneralButton
