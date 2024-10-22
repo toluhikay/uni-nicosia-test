@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.6...v0.1.7) (2024-10-22)
+
+
+### Features
+
+* Enhance user experience with loading indicator, error boundary, and updated README.md ([645bf8e](https://github.com/toluhikay/uni-nicosia-test/commit/645bf8e42ca95d002b03de6822c65f59e76c860a))
+
 ### [0.1.6](https://github.com/toluhikay/uni-nicosia-test/compare/v0.1.5...v0.1.6) (2024-10-22)
 
 
